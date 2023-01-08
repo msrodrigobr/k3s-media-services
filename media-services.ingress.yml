@@ -1,0 +1,49 @@
+## media.ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: "media-services"
+  name: "media-services-ingress"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "media-services.192.168.50.66.nip.io"
+    http:
+      paths:
+      - path: /torrents
+        pathType: Prefix
+        backend:
+          service:
+            name: transmission-vpn-transmission-openvpn
+            port:
+              number: 80
+      - path: /sonarr
+        pathType: Prefix
+        backend:
+          service:
+            name: sonarr
+            port:
+              number: 80
+      - path: /jackett
+        pathType: Prefix
+        backend:
+          service:
+            name: jackett
+            port:
+              number: 80
+      - path: /radarr
+        pathType: Prefix
+        backend:
+          service:
+            name: radarr
+            port:
+              number: 80
+      - path: /plex
+        pathType: Prefix
+        backend:
+          service:
+            name: plex-kube
+            port:
+              number: 32400
+---
