@@ -1,0 +1,33 @@
+### media.sonarr.values.yml
+replicaCount: 1
+
+image:
+  repository: linuxserver/sonarr
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+
+service:
+  type: ClusterIP
+  port: 80
+
+volumes:
+  - name: media-hdd
+    persistentVolumeClaim:
+      claimName: "media-hdd" # PersistentVolumeClaim created earlier
+
+volumeMounts:
+  - name: media-hdd
+    mountPath: "/config"
+    subPath: "configs/sonarr" # Path /mnt/ssd/media/configs/sonarr where sonarr writes the configuration
+  - name: media-hdd
+    mountPath: "/downloads/torrents"
+    subPath: "downloads/torrents" # Path /mnt/ssd/media/downloads/transmission where sonarr picks up downloaded episodes
+  - name: media-hdd
+    mountPath: "/tv"
+    subPath: "library/series" # Path /mnt/ssd/media/library/tv where sonarr moves and renames the episodes

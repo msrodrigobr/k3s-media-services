@@ -35,7 +35,7 @@ env:
     - name: TRANSMISSION_PEER_PORT
       value: "47444"
     - name: TRANSMISSION_DOWNLOAD_DIR
-      value: "/downloads/transmission"
+      value: "/downloads/torrents/transmission"
     - name: PUID
       value: "1000"
     - name: PGID
@@ -58,7 +58,7 @@ volumeMounts:
     mountPath: /data
     subPath: configs/transmission-data
   - name: media-hdd
-    mountPath: /download/torrents
+    mountPath: /downloads/torrents
     subPath: downloads/torrents
 
 securityContext:

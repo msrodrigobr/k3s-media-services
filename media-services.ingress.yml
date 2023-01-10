@@ -6,12 +6,17 @@ metadata:
   namespace: "media-services"
   name: "media-services-ingress"
 spec:
-  ingressClassName: nginx
   rules:
-  - host: "media-services.192.168.50.66.nip.io"
-    http:
+  - http:
       paths:
       - path: /torrents
+        pathType: Prefix
+        backend:
+          service:
+            name: transmission-vpn-transmission-openvpn
+            port:
+              number: 80
+      - path: /transmission
         pathType: Prefix
         backend:
           service:
@@ -39,11 +44,11 @@ spec:
             name: radarr
             port:
               number: 80
-      - path: /plex
+      - path: /jellyfin
         pathType: Prefix
         backend:
-          service:
-            name: plex-kube
+          service: 
+            name: jellyfin-stable
             port:
-              number: 32400
+              number: 8096
 ---

@@ -1,0 +1,35 @@
+## media.radarr.values.yml
+replicaCount: 1
+
+image:
+  repository: "linuxserver/radarr"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+
+service:
+  type: ClusterIP
+  port: 80
+
+volumes:
+  - name: "media-hdd"
+    persistentVolumeClaim:
+      claimName:  "media-hdd" # PersistentVolumeClaim created earlier
+
+volumeMounts:
+  - name: "media-hdd"
+    mountPath: "/config"
+    subPath: "configs/radarr" # Path /mnt/ssd/media/configs/radarr where radarr writes the configuration
+  - name: "media-hdd"
+    mountPath: "/downloads/torrents"
+    subPath: "downloads/torrents" # Path /mnt/ssd/media/downloads/transmission where radarr picks up downloaded movies
+  - name: "media-hdd"
+    mountPath: "/movies"
+    subPath: "library/movies" # Path /mnt/ssd/media/library/movies where radarr moves and renames the movies
+
+
