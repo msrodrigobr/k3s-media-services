@@ -13,14 +13,14 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: transmission-vpn-transmission-openvpn
+            name: transmission-openvpn
             port:
               number: 80
       - path: /transmission
         pathType: Prefix
         backend:
           service:
-            name: transmission-vpn-transmission-openvpn
+            name: transmission-openvpn
             port:
               number: 80
       - path: /sonarr
@@ -44,11 +44,11 @@ spec:
             name: radarr
             port:
               number: 80
-      - path: /jellyfin
+      - path: /
         pathType: Prefix
         backend:
           service: 
-            name: jellyfin-stable
+            name: jellyfin
             port:
-              number: 8096
+              number: 80
 ---
