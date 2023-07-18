@@ -1,4 +1,5 @@
 ## media.transmission-openvpn.values.yml
+## helm
 replicaCount: 1
 
 image:
@@ -27,7 +28,7 @@ env:
     - name: NORDVPN_PROTOCOL
       value: "TCP"
     - name: NORDVPN_COUNTRY
-      value: "BR" # Country where we want to download over VPN
+      value: "PL" # Country where we want to download over VPN
     - name: NORDVPN_CATEGORY
       value: "P2P" # VPN Type
     - name: LOCAL_NETWORK
@@ -60,6 +61,9 @@ volumeMounts:
   - name: media-hdd
     mountPath: /downloads/torrents
     subPath: downloads/torrents
+  - name: media-hdd
+    mountPath: /config
+    subPath: configs/transmission-data
 
 securityContext:
   capabilities:
