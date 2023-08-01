@@ -1,0 +1,60 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: deluge
+spec:
+  selector:
+    app: deluge
+  ports:
+  - name: http-deluge-ui
+    protocol: TCP
+    port: 80
+    targetPort: 8112
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deluge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deluge
+  template:
+    metadata:
+      name: deluge
+      labels:
+        app: deluge
+    spec:
+      containers:
+      - name: deluge
+        image: lscr.io/linuxserver/deluge:latest
+        ports:
+        - name: deluge-ui
+          containerPort: 8112
+        - name: deluge-traffic
+          containerPort: 6881
+        env:
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+          - name: TZ
+            value: "Europe/Warsaw"
+          - name: DELUGE_LOGLEVEL
+            value: "error"
+        securityContext:
+            privileged: true
+        volumeMounts:
+          - name: "media-hdd"
+            mountPath: "/config"
+            subPath: "configs/deluge"
+          - name: "media-hdd"
+            mountPath: "/downloads"
+            subPath: "downloads/torrents"
+      volumes:
+        - name: "media-hdd"
+          persistentVolumeClaim:
+            claimName: "media-hdd"
